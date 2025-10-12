@@ -1,6 +1,6 @@
 from: markdown
 to: html
-data-dir: _data
+data-dir: "_data"
 fail-if-warnings: false
 section-divs: true
 shift-heading-level-by: 1
@@ -9,16 +9,16 @@ filters:
   - citeproc
   - pandoc-sidenote
 metadata:
-  bibliography: _data/biblio.yaml
-  csl: _data/chicago-note-bibliography.csl
-  lang: pt-PT
+  bibliography: "src/_data/biblio.yml"
+  csl: "_data/chicago-note-bibliography.csl"
+  lang: "pt-PT"
   link-citations: true
   reference-section-title: "Referências"
   # pandoc-crossref metadata
   ccsLabelSep: "&nbsp;&ndash;&nbsp;"
-  figureTitle: Figura
+  figureTitle: "Figura"
   subfigureRefIndexTemplate: $$i$$$$suf$$ [$$s$$]
-  tableTitle: Tabela
+  tableTitle: "Tabela"
   tblPrefix:
-    - tab.
-    - tabs.
+    - "tab."
+    - "tabs."
