@@ -1,0 +1,15 @@
+<nav aria-label="breadcrumb">
+  <ul class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/">{{ ui_text[lang].breadcrumb_home_label }}</a>
+    </li>
+    {%- if tags %}
+    <li class="breadcrumb-item">
+      <a href="../" class="capitalize-first">{{ tags[0] }}</a>
+    </li>
+    {%- endif %}
+    <li class="breadcrumb-item active" aria-current="page">
+      {{ title }}
+    </li>
+  </ul>
+</nav>

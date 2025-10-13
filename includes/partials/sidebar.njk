@@ -1,0 +1,51 @@
+{% if not lang %}{% set lang = site.locale %}{% endif %}
+{%- if author_profile %}
+<div class="author__profile" itemscope itemtype="https://schema.org/Person">
+  {% if ( author and members[author] ) %}
+    {% set author = members[author] %}
+  {% else %}
+    {% set author = site.author %}
+  {% endif %}
+  {% include "partials/author-profile.njk" %}
+</div>
+{%- endif %}
+{% if sidebar %}
+  <ul class="list-group">
+  {%- for i in sidebar %}
+  <li class="list-group-item{% if i.class %} {{ i.class }}{%endif %}">
+    {%- if i.title %}
+      <h2 data-toc-skip>{{ i.title | safe }}</h2>
+    {%- endif %}
+    {%- if i.text %}
+      <p>{{ i.text | safe }}</p>
+    {%- endif %}
+    </li>
+  {%- endfor %}
+  </ul>
+{% endif %}
+{% if sidebar_nav %}
+<div class="list-group">
+  {% for i in navigation[sidebar_nav] %}
+  <a class="list-group-item list-group-item-action{% if i.class %} {{ i.class }}{%endif %}"
+      href="{{ i.url }}">
+      {{ i.title }}
+  </a>
+  {% if i.children %}
+  <div class="list-group list-group-flush">
+  {% for i in i.children %}
+    <a class="list-group-item list-group-item-action{% if i.class %} {{ i.class }}{%endif %}"
+        href="{{ i.url }}">
+      {{ i.title }}
+    </a>
+  {% endfor %}
+  </div>
+  {% endif %}
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+{% if toc %}
+<nav id="toc" data-toggle="toc">
+  <h2 data-toc-skip>{{ schemata.ui_text[lang].toc_label }}</h2>
+</nav>
+{% endif %}

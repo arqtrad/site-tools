@@ -1,0 +1,79 @@
+{% extends "layouts/base.njk" %}
+
+{% block after %}
+{%- if lang %}
+  {%- set lang %}{{ lang | truncate(2, true, "") }}{%- endset %}
+{%- elif locale %}
+  {%- set lang %}{{ locale | truncate(2, true, "") }}{%- endset %}
+{%- else %}
+  {%- set lang %}{{ site.locale | truncate(2, true, "") }}{%- endset %}
+{%- endif %}
+
+{% set timelineData %}
+{
+  "title": {
+    "text": {
+      "headline": "Cronologia da arquitetura doméstica",
+      "text": "<p class=\"lead\">Todas as {{ collections.casa | length }} casas em ordem cronológica</p>"
+    },
+    "background": {
+      "url": "https://i.pinimg.com/originals/f7/76/49/f7764902ee90d4fc48b6f795307bc366.jpg",
+      "alt": "Abigail de Andrade, Estrada do Mundo Novo, 1888"
+    }
+  },
+  "events": [
+  {% for post in collections.casa %}
+    {% if post.data.coverage.spatial.location.state %}
+      {% set stateCode = post.data.coverage.spatial.location.state %}
+    {% endif %}
+    {% if schemata.thesaurus[stateCode].name[lang].title %}
+      {% set stateName = schemata.thesaurus[stateCode].name[lang].title %}
+    {% endif %}
+
+    {% if post.data.coverage.spatial.location.country %}
+      {% set countryCode = post.data.coverage.spatial.location.country %}
+    {% elif stateCode %}
+      {% for r in schemata.thesaurus[stateCode].relation %}
+        {% if r.type == "isPartOf" %}
+          {% set countryCode = r.relids %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    {% if schemata.thesaurus[countryCode].name[lang].title %}
+      {% set countryName = schemata.thesaurus[countryCode].name[lang].title %}
+    {% endif %}
+
+    {% if post.data.coverage.spatial.location.city %}
+      {% set cityName = post.data.coverage.spatial.location.city %}
+    {% endif %}
+{
+      "media": {
+        "url": "{{ post.data.header.teaser }}",
+        "caption": "{{ post.data.header.caption }}",
+        "link": "{{ post.url }}"
+      },
+      {% for event in post.data.coverage.temporal %}
+        {% if event.type == "creation" %}
+          {% if event.start_date or event.end_date %}
+          "start_date": {
+          "year": "{% if event.start_date %}{{ event.start_date.year }}{% elif event.end_date %}{{ event.end_date.year }}{% endif %}"
+          },
+          {% endif %}
+          {% if event.display_date %}
+          "display_date": "{{ event.display_date }}",
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      "text": {
+       "headline": "<a href=\"{{ post.url }}\" class=\"stretched-link\">{{ post.data.title }}</a>",
+        "text": "<p class=\"lead\">{% if countryCode %}<span data-pagefind-filter=\"country[aria-label]\" aria-label=\"{{ countryName }}\">{{ countryCode | countryEmoji }}</span>{% endif %} {% if stateName %}<span data-pagefind-filter=\"state\">{{ stateName }}</span><i class=\"bi bi-chevron-compact-right\" aria-hidden=\"true\"></i>{% endif %} {% if cityName %}<span data-pagefind-filter=\"city\">{{ cityName }}</span>{% endif %}</p><p>{{ post.data.excerpt }}</p>"
+      }
+    }{% if not loop.last %},{% endif %}
+  {% endfor %}
+  ]
+}
+{% endset %}
+<div id="timeline-container" class="container-fluid text-center mb-5">
+  {% include "partials/timeline.njk" %}
+</div><!--/.container-fluid-->
+{% endblock %}

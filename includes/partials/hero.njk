@@ -1,0 +1,39 @@
+<div class="hero-container">
+  <h1>
+    {% if title %}{{ title | safe }}{% else %}{{ site.title }}{% endif %}
+    {% if subtitle -%}
+    <span class="subtitle">
+      {{ subtitle | safe }}
+    </span>
+    {%- endif %}
+  </h1>
+  {% if ( description and not excerpt ) %}{% set excerpt = description %}{% endif %}
+  {% if excerpt %}<div class="lead">
+    {{ excerpt | safe }}
+  </div>{% endif %}
+  {% if header.cta_url %}
+    <p><a href="{{ header.cta_url }}" class="btn btn--light-outline btn--large">{{ header.cta_label }}</a></p>
+  {% endif %}
+  {% if header.actions %}
+    <p class="action">
+    {% for action in header.actions %}
+    <a href="{{ action.href }}"{% if action.btn_class %} class="my-3 btn {{ action.btn_class }}"{% endif %}>
+      {{ action.label | safe }}
+    </a>
+    {% endfor %}
+  {% endif %}
+  {%- if splash %}
+    <div id="search" role="search" class="my-3 mx-auto align-self-center"></div>
+  {%- endif %}
+  </div>
+  <p class="action skip-hero">
+    <a href="#initial-scroll">
+      <i class="bi bi-chevron-double-down"></i>
+    </a>
+  </p>
+  {% if header.caption -%}
+  <figcaption class="hero__caption">
+    {{ header.caption | safe }}
+  </figcaption>
+  {%- endif %}
+</div>

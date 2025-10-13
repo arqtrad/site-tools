@@ -1,0 +1,30 @@
+<div class="col">
+  <div class="card h-100 shadow-sm"{% if post.data.conformsTo %} itemscope itemtype="{{ post.data.conformsTo }}"{% endif %}>
+    {% if post.data.href %}
+      {% set teaser = post.data.href %}
+    {% else %}
+      {% set teaser = ('/media/' + post.fileSlug + '.jpg') %}
+    {% endif %}
+    <img itemprop="image" class="card-img-top" src="{{ teaser }}" />
+    <div class="card-header" itemprop="name">
+      <a href="{{ post.url }}" class="stretched-link"><h3 class="card-title h6 mb-0">{{ post.data.title | safe }}</h3></a>
+    </div>
+    <div class="card-body text-start">
+      <small class="card-text" itemprop="description">{{ post.data.excerpt | safe }}</small>
+    </div>
+      <div class="card-footer text-end">
+        {% if post.data.coverage.temporal %}
+          {% for event in post.data.coverage.temporal %}
+            {% if event.type == "creation" %}
+              {% set post_date = event.display_date %}
+            {% endif %}
+          {% endfor %}
+        {% elif post.data.created %}
+          {% set post_date = post.data.created | dateFilter %}
+        {% else %}
+          {% set post_date = "Data desconhecida" %}
+        {% endif %}
+        <small class="text-body-secondary">{{ schemata.ui_text[locale].date_label }} {{ post_date }}</small>
+      </div>
+  </div>
+</div>

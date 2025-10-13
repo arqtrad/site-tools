@@ -1,0 +1,58 @@
+{%- if lang %}
+  {%- set lang %}{{ lang | truncate(2, true, "") }}{%- endset %}
+{%- elif post.data.lang %}
+  {%- set lang %}{{ post.data.lang | truncate(2, true, "") }}{%- endset %}
+{%- elif locale %}
+  {%- set lang %}{{ locale | truncate(2, true, "") }}{%- endset %}
+{%- else %}
+  {%- set lang %}{{ site.locale | truncate(2, true, "") }}{%- endset %}
+{%- endif %}
+
+{%- if coverage.spatial.location.state %}
+  {%- set stateCode = coverage.spatial.location.state %}
+{%- elif post.data.coverage.spatial.location.state %}
+  {%- set stateCode = post.data.coverage.spatial.location.state %}
+{%- endif %}
+{%- if schemata.thesaurus[stateCode].name[lang].title %}
+  {%- set stateName = schemata.thesaurus[stateCode].name[lang].title %}
+{%- endif %}
+
+{%- if coverage.spatial.location.country %}
+  {%- set countryCode = coverage.spatial.location.country %}
+{%- elif post.data.coverage.spatial.location.country %}
+  {%- set countryCode = post.data.coverage.spatial.location.country %}
+{%- elif stateCode %}
+  {%- for r in schemata.thesaurus[stateCode].relation %}
+    {%- if r.type == "isPartOf" %}
+      {%- set countryCode = r.relids %}
+    {%- endif %}
+  {%- endfor %}
+{%- endif %}
+{%- if schemata.thesaurus[countryCode].name[lang].title %}
+  {%- set countryName = schemata.thesaurus[countryCode].name[lang].title %}
+{%- endif %}
+
+{%- if coverage.spatial.location.city %}
+  {%- set cityName = coverage.spatial.location.city %}
+{%- elif post.data.coverage.spatial.location.city %}
+  {%- set cityName = post.data.coverage.spatial.location.city %}
+{%- endif %}
+
+{%- if countryCode %}
+  <span data-pagefind-filter="country[aria-label]"
+        aria-label="{{ countryName }}">
+  {{ countryCode | countryEmoji }}
+  </span>
+{%- endif %}
+{%- if stateName %}
+  <span data-pagefind-filter="state">
+    {{ stateName }}
+  </span>
+  <i class="bi bi-chevron-compact-right" aria-hidden="true"></i>
+{%- endif %}
+{%- if cityName %}
+  <span data-pagefind-filter="city">
+  {{ cityName }}
+  </span>
+{%- endif %}
+

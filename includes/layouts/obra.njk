@@ -1,0 +1,224 @@
+{% extends "layouts/base.njk" %}
+
+{% block htmlhead -%}
+{% include "partials/head.njk" %}
+{%- if bibliographicCitation %}
+  {%- if bibliographicCitation.href %}
+<link rel="DCTERMS.bibliographicCitation"
+      href="{{ bibliographicCitation.href }}"
+  {%- elseif bibliographicCitation.text %}
+<meta name="DCTERMS.bibliographicCitation"
+      content="{{ bibliographicCitation.text }}"
+  {%- endif %}
+      />
+{%- endif %}
+<link rel="DCTERMS.conformsTo"
+      href="{{ conformsTo }}"
+      />
+{%- if contributor %}
+  {%- for c in contributor %}
+<meta name="DCTERMS.contributor"
+      data-pagefind-index-attrs="content"
+      content="{{ c.name }}{% if c.role %} ({{ c.role }}{% if c.attribution %}, {{ c.attribution }}{% endif %}){% endif %}"
+      />
+  {%- endfor %}
+{%- endif %}
+{%- if coverage.temporal.events %}
+  {%- for e in coverage.temporal.events %}
+    {%- if ( e.type === 'creation' ) %}
+<meta name="DCTERMS.created"
+      content="
+      {%- if e.start_date -%}
+        {{ e.start_date.year }}
+        {%- if e.start_date.month -%}
+          -{{ e.start_date.month }}
+          {%- if e.start_date.day -%}
+            -{{ e.start_date.day }}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- if e.end_date -%}
+        /{{ e.end_date.year }}
+        {%- if e.end_date.month -%}
+          -{{ e.end_date.month }}
+          {%- if e.end_date.day -%}
+            -{{ e.end_date.day }}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
+      "
+      />
+    {%- endif %}
+  {%- endfor %}
+{%- endif %}
+{%- if creator %}
+  {%- for c in creator %}
+<meta name="DCTERMS.creator"
+      data-pagefind-index-attrs="content"
+      content="{{ c.name }}{% if c.attribution %} ({{ c.attribution }}){% endif %}"
+      />
+  {%- endfor %}
+{%- endif %}
+{%- if format.extent %}
+  {%- for e in format.extent %}
+<meta name="DCTERMS.extent"
+      content="{{ e.type }}: {{ e.measurements }} {{ e.unit }}"
+      />
+  {%- endfor %}
+{%- endif %}
+{%- if identifier %}
+  {%- for i in identifier %}
+    {%- set label %}{% if i.source %}{{ i.source }}{% endif %}{% if i.refid %} {{ i.refid }}{% endif %}{% if i.text %} {{ i.text }}{% endif %}{% endset %}
+    {%- if i.href %}
+<link rel="DCTERMS.identifier"
+      href="{{ i.href }}"
+      title="{{ label }}"
+      data-pagefind-index-attrs="title"
+    {%- else %}
+<meta name="DCTERMS.identifier"
+      content="{{ label }}"
+      data-pagefind-index-attrs="content"
+    {%- endif %}
+      />
+  {%- endfor %}
+{%- endif %}
+{%- if format.medium.material %}
+  {%- for m in format.medium.material %}
+<meta name="DCTERMS.medium"
+      content="{% if m.type %}{{ m.type }}: {% endif %}{{ m.text }}"
+      data-pagefind-index-attrs="content"
+      />
+  {%- endfor %}
+{%- endif %}
+{%- if relation %}
+  {%- for r in relation %}
+    {%- set label %}{{ r.type }}:{% if r.relids %} {{ r.relids }}{% endif %}{% if r.text %} {{ r.text }}{% endif %}{% endset %}
+    {%- if r.href %}
+<link rel="DCTERMS.relation"
+      href="{{ r.href }}"
+      title="{{ label }}"
+    {%- else %}
+<meta name="DCTERMS.relation"
+      content="{{ label }}"
+    {%- endif %}
+      />
+  {%- endfor %}
+{%- endif %}
+{%- if subject %}
+  {%- for s in subject %}
+    {%- if s.href %}
+<link rel="DCTERMS.subject"
+      href="{{ s.href }}"
+      title="{{ s.text }}"
+    {%- elseif s.text %}
+<meta name="DCTERMS.subject"
+      content="{{ s.text }}"
+      data-pagefind-index-attrs="content"
+    {%- endif %}
+      />
+  {%- endfor %}
+{%- endif %}
+{%- if type %}
+<meta name="DCTERMS.type"
+      content="{{ type.name }}"
+      data-pagefind-index-attrs="content"
+      />
+{%- endif %}
+{%- endblock %}
+
+{% block pagecontent %}
+<script src="/assets/leaflet/leaflet.js"></script>
+{% include "partials/breadcrumb.njk" %}
+<article data-pagefind-body class="has-infobox order-md-2">
+  <div class="d-none" aria-hidden="true" data-pagefind-index-attrs="title">{{ title }}</div>
+  {{ content | safe }}
+</article>
+
+<div class="col col-md-4 order-md-1 mb-5">
+  <div class="card">
+    <div id="map" itemprop="hasMap" class="card-img-top"></div>
+    <ul class="list-group list-group-flush">
+      <li itemprop="address" data-pagefind-weight="7" class="list-group-item">
+        {%- include "partials/location_slug.njk" %}
+      </li>
+      <li class="list-group-item">
+        {% if date %}
+          {{ schemata.ui_text[locale].date_added }}
+        {% else %}
+          {{ schemata.ui_text[locale].date_label }}
+        {% endif %}
+        {{ page.date | dateFilter }}
+      </li>
+      <li class="list-group-item">
+        {% if authors %}
+          {{ schemata.ui_text[locale].author_reg_pl }}:
+          {% for author in authors %}
+          <span data-pagefind-filter="author">
+            {{ members[author].name }}{% if not loop.last %}; {% endif %}
+          </span>
+          {% endfor %}
+        {% elif author %}
+          {{ schemata.ui_text[locale].author_reg_sg }}:
+          <span data-pagefind-filter="author">
+            {{ members[author].name }}
+          </span>
+        {% endif %}
+      </li>
+    </ul>
+  </div><!--/.card-->
+</div><!--/.col-md-4-->
+{% endblock %}
+
+{% block after %}
+<div class="media-block">
+{% if coverage.temporal %}
+  {% set timelineData %}
+  {
+    "title": {
+      "text": {
+        "headline": "{{ schemata.ui_text[locale].timeline_label }}"
+      }
+    },
+    "events":
+    {{ coverage.temporal | dump | safe }}
+  }
+  {% endset %}
+  {% include "partials/timeline.njk" %}
+{% endif %}
+
+  <h2 id="desenhos" style="text-transform: capitalize;">{{ schemata.ui_text[locale].dwgs_label }}</h2>
+  <div class="archive__row">
+  {%- for dwg in desenhos %}{%- if ( dwg.subject == page.fileSlug  ) and ( dwg.svg == "TRUE" or dwg.dxf == "TRUE" or dwg.ifc == "TRUE" ) %}
+    {%- include "partials/card-dwg.njk" %}
+  {%- endif %}{% endfor %}
+  </div><!--/.archive__row-->
+{% if relation %}
+  {% set mediaCollection = collections.media %}
+  <div class="archive__row">
+  {% for rel in relation %}
+    {% if rel.type == ( "isDocumentedBy" or "isSupplementedBy" ) %}
+      {% for post in mediaCollection %}
+        {% if post.fileSlug == rel.relids %}
+          {% include "partials/card-picture.njk" %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+  </div><!--/.archive__row-->
+  <h2 id="iconografia" style="text-transform: capitalize;">{{ schemata.ui_text[locale].iconography_label }}</h2>
+  <div class="archive__row">
+  {% for rel in relation %}
+    {% if rel.type == ( "depictedIn" or "imageIs" or "planIs" ) %}
+      {% for post in mediaCollection %}
+        {% if post.fileSlug == rel.relids %}
+          {% include "partials/card-picture.njk" %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+  </div><!--/.archive__row-->
+{% endif %}
+</div><!--/.media-block-->
+
+{% include "partials/leafletjs.njk" %}
+{% endblock %}

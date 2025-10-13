@@ -1,0 +1,15 @@
+{%- if page.collection -%}
+  {%- set currentCollection = page.collection -%}
+{%- endif -%}
+{%- if currentCollection -%}
+{% set collectionToNavigate = collections[currentCollection] %}
+{% set previousPost = collectionToNavigate | getPreviousCollectionItem %}
+{% set nextPost = collectionToNavigate | getNextCollectionItem %}
+{% if previousPost or nextPost %}
+<div class="container">
+  <div class="row justify-content-center">
+    {% include "partials/prev-next.njk" %}
+  </div><!--/.col-->
+</div><!--/.container-->
+{% endif %}
+{%- endif -%}

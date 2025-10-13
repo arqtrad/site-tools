@@ -1,0 +1,71 @@
+{%- if not locale -%}
+  {%- set locale = site.locale -%}
+{%- endif %}
+<div class="col">
+  <div class="card h-100 shadow-sm" itemscope itemtype="https://schema.org/Drawing">
+    {%- set dwgSlug = ( dwg.subject + '-' + dwg.agent + '-' + dwg.fase + dwg.state + '-' + dwg.local + '-' + dwg.form + dwg.view + '-' + dwg.role + '-' + dwg.lok + dwg.loe + '-' + dwg.num ) %}
+    {%- set dwgSlug %}{{ dwgSlug | upper }}{%- endset %}
+    <svg itemprop="image" class="card-img-top" src="/assets/svg/{{ dwgSlug }}.svg" />
+    <div class="card-header" itemprop="name">
+      <h3 class="card-title h6 mb-0">
+        {{ dwg.title | safe }}
+      </h3>
+    </div>
+    <div class="card-body">
+    {%- if dwg.excerpt %}
+      <small class="card-text" itemprop="description">{{ dwg.excerpt | safe }}</small>
+    {%- endif %}
+    </div>
+    <ul class="list-group list-group-flush">
+      {%- if dwg.temporal %}
+      <li class="list-group-item">
+        {{ dwg.temporal }}
+      </li>
+      {%- endif %}
+      {%- if dwg.scale %}
+      <li class="list-group-item">
+        {{ schemata.ui_text[locale].scale_label }}:
+        {{ dwg.scale }}
+      </li>
+      {%- endif %}
+      {%- if dwg.author %}
+      <li class="list-group-item" itemprop="author">
+        {%- set dwgAuthor = dwg.author %}
+        {{ schemata.ui_text[locale].redraw }}:
+        {{ members[dwgAuthor].name }}
+      </li>
+      {%- endif %}
+      {%- if ( dwg.svg == "TRUE" ) or ( dwg.dxf == "TRUE" ) %}
+      <li class="list-group-item justify-content-around">
+        {%- if dwg.svg == "TRUE" %}
+        <a class="icon-link icon-link-hover px-3"
+           href="/assets/svg/{{ dwgSlug }}.svg"
+           itemprop="encoding"
+           alt="Download SVG">
+          <i class="bi bi-filetype-svg" aria-hidden="true"></i>
+          Download <span class="smallcaps">SVG</span>
+        </a>
+        {%- endif %}
+        {%- if dwg.dxf == "TRUE" %}
+        <a class="icon-link icon-link-hover px-3"
+           href="/assets/dxf/{{ dwgSlug }}.dxf"
+           download
+           itemprop="encoding"
+           alt="Download DXF">
+          <i class="bi bi-file-earmark-excel" aria-hidden="true"></i>
+          Download <span class="smallcaps">DXF</span>
+        </a>
+        {%- endif %}
+      </li>
+      {%- endif %}
+    </ul>
+    <div class="card-footer text-end">
+      <small class="text-body-secondary">
+        <span itemprop="version">{{ dwg.rev }}</span>
+        <i class="bi bi-chevron-compact-right"></i>
+        {{ schemata.ui_text[locale].date_label }}
+        <span itemprop="dateModified">{{ dwg.date }}</span>
+      </small>
+    </div>
+  </div>
+</div>

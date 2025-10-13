@@ -1,0 +1,23 @@
+<!--
+   -<link title="timeline-styles" rel="stylesheet"
+   -      href="{{ '/assets/timelinejs/css/timeline.css' | url }}" />
+   -->
+<script src="{{ '/assets/timelinejs/js/timeline.js' | url }}"></script>
+
+<div itemprop="event"
+     id="timeline-embed"
+     data-pagefind-body
+     data-pagefind-weight="5"
+     class="col"
+     style="width: 100%; height: 600px;"
+     >
+</div>
+
+<script type="text/javascript">
+  var timelineOptions = {
+    language: "pt",
+    scale_factor: 1
+  };
+  var timeline_json = {{ timelineData | safe }};
+  window.timeline = new TL.Timeline('timeline-embed', timeline_json, timelineOptions);
+</script>

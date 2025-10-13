@@ -1,0 +1,19 @@
+{%- extends "layouts/splash.njk" -%}
+{% block archive %}
+<hr class="clearfix border-0" />
+<div class="container-fluid">
+{%- if pagination %}
+  <div class="archive__row">
+  {%- if not paginationTemplate %}
+    {%- set paginationTemplate = "partials/card-place.njk" %}
+  {%- endif %}
+  {%- for post in pagination.items %}
+    {% include paginationTemplate %}
+  {%- endfor %}
+  </div>
+  {%- if ( pagination.href.last != pagination.href.first ) %}
+  {%- include "partials/paginator.njk" %}
+  {%- endif %}
+</div>
+{%- endif %}
+{%- endblock -%}

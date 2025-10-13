@@ -1,0 +1,98 @@
+{% extends "layouts/base.njk" %}
+{% set splash = true %}
+
+{%- block htmlhead %}
+  {% include "partials/head.njk" %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" type="text/css" href="/assets/leaflet/leaflet.css" />
+{%- endblock %}
+
+{%- block nav %}
+<div class="page__title d-flex flex-column w-100 h-100">
+  <header>
+  {% include "partials/nav.njk" %}
+  </header>
+{%- endblock %}
+ 
+{%- block pagetitle %}
+<div class="w-100 h-100 d-flex align-self-stretch align-items-stretch" style="height: 100%">
+  {{ content | safe }}
+  <script src="/assets/leaflet/leaflet.js"></script>
+  <div id="map" class="d-flex flex-column w-100 h-100 align-self-stretch align-items-stretch" itemprop="hasMap"></div>
+{% if header.actions %}
+  <div class="action over-map align-items-center text-center">
+    {% for action in header.actions %}
+    <a href="{{ action.href }}"{% if action.btn_class %} class="my-5 mx-auto btn {{ action.btn_class }}"{% endif %}>
+      {{ action.label | safe }}
+    </a>
+  {% endfor %}
+  </div>
+{% endif %}
+</div>
+{%- endblock %}
+
+{%- block container %}
+{%- endblock %}
+
+{% block pagefooter -%}
+  <div class="align-self-end w-100 mx-0 mt-0">
+    {% include "partials/footer.njk" %}
+  </div><!--/.align-self-end-->
+</div>
+
+<!--Leaflet map generator-->
+<script>
+  var map = L.map('map', {
+    zoomSnap: 0.25
+  }).setView([5, -23], 3);
+  L.tileLayer('https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+{% for post in collections[site.defaultCollection] %}
+  {% if post.data.coverage.spatial.location.lat and post.data.coverage.spatial.location.long %}
+    {%- set stateCode = post.data.coverage.spatial.location.state %}
+    {%- if  schemata.thesaurus[stateCode].name[locale].title %}
+      {%- set stateName = schemata.thesaurus[stateCode].name[locale].title %}
+    {%- elif schemata.thesaurus[stateCode].name[lang].title %}
+      {%- set stateName = schemata.thesaurus[stateCode].name[lang].title %}
+    {%- elif  schemata.thesaurus[stateCode].name[site.locale].title %}
+      {%- set stateName = schemata.thesaurus[stateCode].name[site.locale].title %}
+    {%- elif schemata.thesaurus[stateCode].name[site_lang].title %}
+      {%- set stateName = schemata.thesaurus[stateCode].name[site_lang].title %}
+    {%- endif %}
+
+    {%- if post.data.coverage.spatial.location.country %}
+      {%- set countryCode = post.data.coverage.spatial.location.country %}
+    {%- elif stateCode %}
+      {%- for r in schemata.thesaurus[stateCode].relation %}
+        {%- if r.type == "isPartOf" %}
+          {%- set countryCode = r.relids %}
+        {%- endif %}
+      {%- endfor %}
+    {%- endif %}
+    {%- if  schemata.thesaurus[countryCode].name[locale].title %}
+      {%- set countryName = schemata.thesaurus[countryCode].name[locale].title %}
+    {%- elif schemata.thesaurus[countryCode].name[lang].title %}
+      {%- set countryName = schemata.thesaurus[countryCode].name[lang].title %}
+    {%- elif  schemata.thesaurus[countryCode].name[site.locale].title %}
+      {%- set countryName = schemata.thesaurus[countryCode].name[site.locale].title %}
+    {%- elif schemata.thesaurus[countryCode].name[site_lang].title %}
+      {%- set countryName = schemata.thesaurus[countryCode].name[site_lang].title %}
+    {%- endif %}
+
+    {%- if post.data.coverage.spatial.location.city %}
+      {%- set cityName = post.data.coverage.spatial.location.city %}
+    {%- endif %}
+
+    {%- for e in post.data.coverage.temporal.events %}
+      {%- if e.type == "creation" %}
+        {%- set creationDate = e.display_date %}
+      {%- endif %}
+    {%- endfor %}
+  L.marker([{{ post.data.coverage.spatial.location.lat }}, {{ post.data.coverage.spatial.location.long }}]).addTo(map).bindPopup('<div class="popover-header"><a href="{{ post.url }}">{{ post.data.title }}</a></div> <div class="popover-body">{{ creationDate }}<br />{% if countryCode %} <span aria-label="{{ countryName }}"> {{ countryCode | countryEmoji }} </span> {% endif %} {% if stateName %} {{ stateName }} {% endif %} {% if cityName %} <i class="bi bi-chevron-compact-right" aria-hidden="true"></i> {{ cityName }} {% endif %}</div>');
+  {% endif %}
+{% endfor %}
+</script>
+<!--/Leaflet map generator-->
+{%- endblock %}
