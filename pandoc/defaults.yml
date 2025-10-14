@@ -1,6 +1,5 @@
 from: markdown
 to: html
-data-dir: "tools/pandoc"
 fail-if-warnings: false
 section-divs: true
 shift-heading-level-by: 1
@@ -9,7 +8,7 @@ filters:
   - citeproc
   - pandoc-sidenote
 metadata:
-  bibliography: "src/_data/biblio.yml"
+  bibliography: "src/_data/biblio.yaml"
   csl: "tools/pandoc/chicago-note-bibliography.csl"
   lang: "pt-PT"
   link-citations: true

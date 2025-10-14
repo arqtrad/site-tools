@@ -1,8 +1,8 @@
 {% if not lang %}{% set lang = site.locale %}{% endif %}
 {%- if author_profile %}
 <div class="author__profile" itemscope itemtype="https://schema.org/Person">
-  {% if ( author and members[author] ) %}
-    {% set author = members[author] %}
+  {% if ( author and schemata.members[author] ) %}
+    {% set author = schemata.members[author] %}
   {% else %}
     {% set author = site.author %}
   {% endif %}

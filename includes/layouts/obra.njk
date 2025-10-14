@@ -154,13 +154,13 @@
           {{ schemata.ui_text[locale].author_reg_pl }}:
           {% for author in authors %}
           <span data-pagefind-filter="author">
-            {{ members[author].name }}{% if not loop.last %}; {% endif %}
+            {{ schemata.members[author].name }}{% if not loop.last %}; {% endif %}
           </span>
           {% endfor %}
         {% elif author %}
           {{ schemata.ui_text[locale].author_reg_sg }}:
           <span data-pagefind-filter="author">
-            {{ members[author].name }}
+            {{ schemata.members[author].name }}
           </span>
         {% endif %}
       </li>
