@@ -8,7 +8,7 @@ filters:
   - citeproc
   - pandoc-sidenote
 metadata:
-  bibliography: "src/_data/biblio.yaml"
+  bibliography: "src/_data/schemata/biblio.yaml"
   csl: "tools/pandoc/chicago-note-bibliography.csl"
   lang: "pt-PT"
   link-citations: true
