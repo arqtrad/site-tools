@@ -621,10 +621,28 @@ blockquote > footer {
 .page-footer {
   @extend .my-4;
   @extend .border-top;
+  @extend .row;
+  @extend .row-cols-1;
+  @extend .row-cols-sm-2;
+  @extend .row-cols-md-3;
+  @extend .row-cols-xl-4;
+  @extend .pt-2;
 }
 
 div.mt-0 > footer.page-footer {
   @extend .mt-0;
+}
+
+.footer-group {
+  @extend .border;
+  @extend .border-0;
+  @extend .list-group;
+}
+
+.footer-group li {
+  @extend .border;
+  @extend .border-0;
+  @extend .list-group-item;
 }
 
 // Tufte, crossref and CSL classes {{{2
@@ -651,7 +669,7 @@ article > section,
   @extend .col-lg-8;
 }
 
-.wide section {
+.wide {
   @extend .col-lg-12;
 }
 

@@ -1,13 +1,52 @@
+
   <footer class="page-footer">
-    <div class="col-md-4 d-flex align-items-center">
+    <div class="col d-flex align-items-center mb-auto mt-2 pt-2">
       <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
         {{ site.title }}
       </a>
-      <span class="mb-3 mb-md-0 text-body-secondary">&copy; 2024 {{ site.name }}</span>
+      <span class="mb-3 mb-md-0 text-body-secondary lh-1">
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+      </span>
     </div>
+    {%- if schemata.credits.pesquisa %}
+    <div class="col mb-auto mt-2 pt-2">
+      <h3 class="h4">Realização</h3>
+      <ul class="footer-group">
+        {%- for i in schemata.credits.pesquisa %}
+        <li class="nav-item">
+          <a href="{{ i.url }}" target="_blank" class="nav-link{% if i.class %} {{ i.class }}{% endif %}">
+            {%- if i.logo %}
+            {{ i.logo | safe }}
+            {%- else %}
+            {{ i.label | safe }}
+            {%- endif %}
+          </a>
+        </li>
+        {%- endfor %}
+      </ul>
+    </div>
+    {%- endif %}
+    {%- if schemata.credits.apoio %}
+    <div class="col mb-auto mt-2 pt-2">
+      <h3 class="h4">Apoio</h3>
+      <ul class="footer-group">
+        {%- for i in schemata.credits.apoio %}
+        <li class="nav-item">
+          <a href="{{ i.url }}" target="_blank" class="nav-link{% if i.class %} {{ i.class }}{% endif %}">
+            {%- if i.logo %}
+            {{ i.logo | safe }}
+            {%- else %}
+            {{ i.label | safe }}
+            {%- endif %}
+          </a>
+        </li>
+        {%- endfor %}
+      </ul>
+    </div>
+    {%- endif %}
 
   {%- if site.footer.links %}
-    <nav id="footer-nav" class="navbar navbar-expand-lg">
+    <nav id="footer-nav" class="navbar navbar-expand-lg mb-auto">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarFooter" aria-controls="navbarFooter" aria-expanded="false" aria-label="Toggle navigation">
         <i class="navbar-toggler-icon"></i>
       </button>
