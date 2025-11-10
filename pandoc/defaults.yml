@@ -6,7 +6,7 @@ shift-heading-level-by: 1
 filters:
   - pandoc-crossref
   - citeproc
-  - pandoc-sidenote
+  - ${.}/pandoc-sidenote.lua
 metadata:
   bibliography: "src/_data/schemata/biblio.yaml"
   csl: "tools/pandoc/chicago-note-bibliography.csl"
