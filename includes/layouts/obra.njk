@@ -6,11 +6,12 @@
   {%- if bibliographicCitation.href %}
 <link rel="DCTERMS.bibliographicCitation"
       href="{{ bibliographicCitation.href }}"
+      />
   {%- elseif bibliographicCitation.text %}
 <meta name="DCTERMS.bibliographicCitation"
       content="{{ bibliographicCitation.text }}"
-  {%- endif %}
       />
+  {%- endif %}
 {%- endif %}
 <link rel="DCTERMS.conformsTo"
       href="{{ conformsTo }}"
@@ -130,7 +131,7 @@
 <script src="/assets/leaflet/leaflet.js"></script>
 {% include "partials/breadcrumb.njk" %}
 <article data-pagefind-body class="has-infobox order-md-2">
-  <div class="d-none" aria-hidden="true" data-pagefind-index-attrs="title">{{ title }}</div>
+  <h2 class="d-none" aria-hidden="true" data-pagefind-index-attrs="title"{% if toc %} data-toc-text="Ficha descritiva"{% endif %}>{{ title }}</h2>
   {{ content | safe }}
 </article>
 
