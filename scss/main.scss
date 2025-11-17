@@ -272,6 +272,11 @@ h6 {
   @extend .text-start;
 }
 
+.list-group-item .h6 {
+  font-family: $font-family-narrow;
+  @extend .fw-bold;
+}
+
 article {
   font-size: 1.3rem;
   font-family: $font-family-serif;
