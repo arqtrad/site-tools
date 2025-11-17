@@ -6,8 +6,8 @@
 {% set site_lang = site.locale | truncate(2, true, "") %}
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{{ locale }}" xml:lang="{{ locale }}"{% if page.dir %} dir="{{ dir }}"{% endif %}>
 <head  profile="http://dublincore.org/specifications/dublin-core/dc-html/2008-08-04/">
-{% block htmlhead -%}
-  {% include "partials/head.njk" %}
+{%- block htmlhead %}
+  {%- include "partials/head.njk" %}
 {%- endblock %}
 </head>
 {%- block bodyClasses %}
