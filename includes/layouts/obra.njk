@@ -74,13 +74,11 @@
 <link rel="DCTERMS.identifier"
       href="{{ i.href }}"
       title="{{ label }}"
-      data-pagefind-index-attrs="title"
     {%- else %}
 <meta name="DCTERMS.identifier"
       content="{{ label }}"
-      data-pagefind-index-attrs="content"
     {%- endif %}
-      />
+      data-pagefind-index-attrs="content" />
   {%- endfor %}
 {%- endif %}
 {%- if format.medium.material %}
@@ -143,7 +141,7 @@
         {%- include "partials/location_slug.njk" %}
       </li>
       <li class="list-group-item">
-        {% if date %}
+        {% if page.date %}
           {{ schemata.ui_text[locale].date_added }}
         {% else %}
           {{ schemata.ui_text[locale].date_label }}
@@ -165,6 +163,17 @@
           </span>
         {% endif %}
       </li>
+      {%- if identifier %}{%- for i in identifier %}
+      <li itemprop="identifier" class="list-group-item">
+        {%- if i.href %}
+        <a href="{{ i.href }}" target="_blank">
+        {%- endif %}
+          {{ i.source }} : {{ i.refid }}
+        {%- if i.href %}
+        </a>
+        {%- endif %}
+      </li>
+     {%- endfor %}{%- endif %}
     </ul>
   </div><!--/.card-->
 </div><!--/.col-md-4-->
@@ -173,13 +182,11 @@
 {% block after %}
 <div class="media-block">
 {% if coverage.temporal %}
+  <h2 id="cronologia" style="text-transform:capitalize">
+    {{ schemata.ui_text[locale].timeline_label }}
+  </h2>
   {% set timelineData %}
   {
-    "title": {
-      "text": {
-        "headline": "{{ schemata.ui_text[locale].timeline_label }}"
-      }
-    },
     "events":
     {{ coverage.temporal | dump | safe }}
   }
