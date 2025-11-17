@@ -127,9 +127,9 @@
 
 {% block pagecontent %}
 <script src="/assets/leaflet/leaflet.js"></script>
-{% include "partials/breadcrumb.njk" %}
+{# include "partials/breadcrumb.njk" #}
 <article data-pagefind-body class="has-infobox order-md-2">
-  <h2 class="d-none" aria-hidden="true" data-pagefind-index-attrs="title"{% if toc %} data-toc-text="Ficha descritiva"{% endif %}>{{ title }}</h2>
+  <h2 class="d-none" aria-hidden="true" data-pagefind-index-attrs="title"{% if toc %} data-toc-text="Ficha técnica"{% endif %}>{{ title }}</h2>
   {{ content | safe }}
 </article>
 
@@ -140,38 +140,53 @@
       <li itemprop="address" data-pagefind-weight="7" class="list-group-item">
         {%- include "partials/location_slug.njk" %}
       </li>
-      <li class="list-group-item">
+      <li itemprop="date" class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="h6 me-auto">
         {% if page.date %}
           {{ schemata.ui_text[locale].date_added }}
         {% else %}
           {{ schemata.ui_text[locale].date_label }}
         {% endif %}
-        {{ page.date | dateFilter }}
+        </div>
+        <span class="badge">
+          {{ page.date | dateFilter }}
+        </span>
       </li>
-      <li class="list-group-item">
+      <li class="list-group-item d-flex justify-content-between align-items-start">
         {% if authors %}
-          {{ schemata.ui_text[locale].author_reg_pl }}:
-          {% for author in authors %}
-          <span data-pagefind-filter="author">
-            {{ schemata.members[author].name }}{% if not loop.last %}; {% endif %}
-          </span>
-          {% endfor %}
+        <div class="h6 me-auto">
+          {{ schemata.ui_text[locale].author_reg_pl }}
+        </div>
+        {% for author in authors %}
+        <span data-pagefind-filter="author">
+          {{ schemata.members[author].name }}{% if not loop.last %}; {% endif %}
+        </span>
+        {% endfor %}
         {% elif author %}
-          {{ schemata.ui_text[locale].author_reg_sg }}:
-          <span data-pagefind-filter="author">
-            {{ schemata.members[author].name }}
-          </span>
+        <div class="h6 me-auto">
+          {{ schemata.ui_text[locale].author_reg_sg }}
+        </div>
+        <span data-pagefind-filter="author">
+          {{ schemata.members[author].name }}
+        </span>
         {% endif %}
       </li>
-      {%- if identifier %}{%- for i in identifier %}
-      <li itemprop="identifier" class="list-group-item">
+      {%- if identifier %}
+      <li class="list-group-item list-group-item-secondary">
+          {{ schemata.ui_text[locale].other_dbs }}
+      </li>
+      {%- for i in identifier %}
+      <li itemprop="identifier" class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="h6 me-auto">{{ i.source }}</div>
+        <span class="badge">
         {%- if i.href %}
         <a href="{{ i.href }}" target="_blank">
         {%- endif %}
-          {{ i.source }} : {{ i.refid }}
+          {{ i.refid }}
         {%- if i.href %}
         </a>
         {%- endif %}
+        </span>
       </li>
      {%- endfor %}{%- endif %}
     </ul>
