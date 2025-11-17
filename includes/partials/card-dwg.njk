@@ -64,7 +64,7 @@
         <span itemprop="version">{{ dwg.rev }}</span>
         <i class="bi bi-chevron-compact-right"></i>
         {{ schemata.ui_text[locale].date_label }}
-        <span itemprop="dateModified">{{ dwg.date }}</span>
+        <span itemprop="dateModified">{{ dwg.date | dateFilter }}</span>
       </small>
     </div>
   </div>

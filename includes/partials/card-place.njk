@@ -1,3 +1,4 @@
+{%- if post.data.excerpt %}{%- set description = post.data.excerpt %}{%- else %}{%- set description = post.data.description %}{%- endif %}
 <div class="col">
   <div class="card h-100 shadow-sm"{% if post.data.conformsTo %} itemscope itemtype="{{ post.data.conformsTo }}"{% endif %}>
     <img itemprop="image" class="card-img-top" src="{{ post.data.header.teaser }}" />
@@ -8,7 +9,7 @@
       <h3 class="card-title" itemprop="name">
         <a href="{{ post.url }}" class="stretched-link">{{ post.data.title | safe }}</a>
       </h3>
-      <p class="card-text" itemprop="description">{{ post.data.excerpt | safe }}</p>
+      <p class="card-text" itemprop="description">{{ description | safe }}</p>
     </div>
       <div class="card-footer text-right">
         <small class="text-body-secondary">{{ ui_text[locale].date_label }} {{ post.date | dateFilter }}</small>

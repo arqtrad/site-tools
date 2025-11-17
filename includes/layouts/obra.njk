@@ -158,16 +158,30 @@
           {{ schemata.ui_text[locale].author_reg_pl }}
         </div>
         {% for author in authors %}
+          {%- if schemata.members[author] %}{% set a = schemata.members[author] %}{%- endif %}
         <span data-pagefind-filter="author">
-          {{ schemata.members[author].name }}{% if not loop.last %}; {% endif %}
+        {%- if a.givenName %}
+          {{ a.givenName }} {{ a.additionalName }} {{ a.familyName }}
+        {%- elif a.name %}
+          {{ a.name }}
+        {%- else %}
+          {{ author }}
+        {%- endif -%}{%- if not loop.last %} ; {% endif %}
         </span>
         {% endfor %}
         {% elif author %}
+          {%- if schemata.members[author] %}{% set a = schemata.members[author] %}{%- endif %}
         <div class="h6 me-auto">
           {{ schemata.ui_text[locale].author_reg_sg }}
         </div>
         <span data-pagefind-filter="author">
-          {{ schemata.members[author].name }}
+        {%- if a.givenName %}
+            {{ a.givenName }} {{ a.additionalName }} {{ a.familyName }}
+        {%- elif a.name %}
+          {{ a.name }}
+        {%- else %}
+          {{ author }}
+        {%- endif %}
         </span>
         {% endif %}
       </li>
