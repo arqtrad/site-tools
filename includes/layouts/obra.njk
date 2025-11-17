@@ -186,25 +186,17 @@
   {% include "partials/timeline.njk" %}
 {% endif %}
 
+{%- if relation.isDocumentedBy[0] %}
   <h2 id="desenhos" style="text-transform: capitalize;">{{ schemata.ui_text[locale].dwgs_label }}</h2>
   <div class="archive__row">
-  {%- for dwg in desenhos %}{%- if ( dwg.subject == page.fileSlug  ) and ( dwg.svg == "TRUE" or dwg.dxf == "TRUE" or dwg.ifc == "TRUE" ) %}
-    {%- include "partials/card-dwg.njk" %}
-  {%- endif %}{% endfor %}
+    {%- for dwg in relation.isDocumentedBy %}
+      {%- include "partials/card-dwg.njk" %}
+    {%- endfor %}
   </div><!--/.archive__row-->
-{% if relation %}
+{%- endif %}
+
+{% if relation.depictedIn[0] %}
   {% set mediaCollection = collections.media %}
-  <div class="archive__row">
-  {% for rel in relation %}
-    {% if rel.type == ( "isDocumentedBy" or "isSupplementedBy" ) %}
-      {% for post in mediaCollection %}
-        {% if post.fileSlug == rel.relids %}
-          {% include "partials/card-picture.njk" %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-  {% endfor %}
-  </div><!--/.archive__row-->
   <h2 id="iconografia" style="text-transform: capitalize;">{{ schemata.ui_text[locale].iconography_label }}</h2>
   <div class="archive__row">
   {% for rel in relation %}
