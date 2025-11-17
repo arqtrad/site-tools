@@ -1219,9 +1219,10 @@ nav[data-toggle="toc"] {
 h2.tl-headline-title {
   @extend h2;
   font-family: $headings-font-family !important;
+  font-style: italic;
   font-variant-numeric: lining-nums !important;
   text-transform: unset !important;
-  font-size: 3rem !important;
+  font-size: 1.7rem !important;
   color: $primary !important;
   @media (prefers-color-scheme: dark) {
     color: $light !important;
