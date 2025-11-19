@@ -23,7 +23,7 @@
       content="{{ c.name }}{% if c.role %} ({{ c.role }}{% if c.attribution %}, {{ c.attribution }}{% endif %}){% endif %}"
       />
   {%- endfor %}
-{%- endif %}
+{%- endif %}{# /contributor #}
 {%- if coverage.temporal.events %}
   {%- for e in coverage.temporal.events %}
     {%- if ( e.type === 'creation' ) %}
@@ -51,7 +51,7 @@
       />
     {%- endif %}
   {%- endfor %}
-{%- endif %}
+{%- endif %}{# /temporal #}
 {%- if creator %}
   {%- for c in creator %}
 <meta name="DCTERMS.creator"
@@ -59,14 +59,14 @@
       content="{{ c.name }}{% if c.attribution %} ({{ c.attribution }}){% endif %}"
       />
   {%- endfor %}
-{%- endif %}
+{%- endif %}{# /creator #}
 {%- if format.extent %}
   {%- for e in format.extent %}
 <meta name="DCTERMS.extent"
       content="{{ e.type }}: {{ e.measurements }} {{ e.unit }}"
       />
   {%- endfor %}
-{%- endif %}
+{%- endif %}{# /format.extent #}
 {%- if identifier %}
   {%- for i in identifier %}
     {%- set label %}{% if i.source %}{{ i.source }}{% endif %}{% if i.refid %} {{ i.refid }}{% endif %}{% if i.text %} {{ i.text }}{% endif %}{% endset %}
@@ -80,7 +80,7 @@
     {%- endif %}
       data-pagefind-index-attrs="content" />
   {%- endfor %}
-{%- endif %}
+{%- endif %}{# /identifier #}
 {%- if format.medium.material %}
   {%- for m in format.medium.material %}
 <meta name="DCTERMS.medium"
@@ -102,7 +102,7 @@
     {%- endif %}
       />
   {%- endfor %}
-{%- endif %}
+  {%- endif %}{# /relation #}
 {%- if subject %}
   {%- for s in subject %}
     {%- if s.href %}
@@ -116,13 +116,13 @@
     {%- endif %}
       />
   {%- endfor %}
-{%- endif %}
+  {%- endif %}{# /subject #}
 {%- if type %}
 <meta name="DCTERMS.type"
       content="{{ type.name }}"
       data-pagefind-index-attrs="content"
       />
-{%- endif %}
+{%- endif %}{# /type #}
 {%- endblock %}
 
 {% block pagecontent %}

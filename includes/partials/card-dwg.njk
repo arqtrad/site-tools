@@ -1,5 +1,9 @@
 {%- if not locale -%}
-  {%- set locale = site.locale -%}
+  {%- if page.lang %}
+    {%- set locale = page.lang %}
+  {%- else %}
+    {%- set locale = site.locale -%}
+  {%- endif %}
 {%- endif %}
 <div class="col">
   <div class="card h-100 shadow-sm" itemscope itemtype="https://schema.org/Drawing">
