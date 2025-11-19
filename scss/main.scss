@@ -650,7 +650,7 @@ div.mt-0 > footer.page-footer {
   @extend .list-group-item;
 }
 
-// Tufte, crossref and CSL classes {{{2
+// Pandoc, crossref and CSL classes {{{2
 // Columns {{{3
 main {
   @extend .d-md-flex;
@@ -670,7 +670,9 @@ article {
 article > section,
 .lead,
 .page__title .lead,
-.page__title--overlay .lead {
+.page__title--overlay .lead,
+.splash #refs,
+.wide #refs {
   @extend .col-lg-8;
 }
 
@@ -698,6 +700,13 @@ body.splash article > section > h2 {
   @extend .text-center;
   @extend .mx-auto;
   max-width: 100%;
+}
+
+#refs {
+  @include clearfix;
+  h2 {
+    @extend .text-center;
+  }
 }
 
 // typography {{{3
