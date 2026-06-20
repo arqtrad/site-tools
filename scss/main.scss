@@ -638,16 +638,28 @@ div.mt-0 > footer.page-footer {
   @extend .mt-0;
 }
 
-.footer-group {
-  @extend .border;
-  @extend .border-0;
-  @extend .list-group;
+.footer-credits {
+  @extend .mb-auto;
+  @extend .mt-2;
+  @extend .pt-2;
+  h3.h4 {
+    display: inline;
+    @extend .m-2;
+  }
 }
 
-.footer-group li {
+.footer-group {
+  display: inline;
   @extend .border;
   @extend .border-0;
-  @extend .list-group-item;
+  @extend .list-inline;
+}
+
+.footer-group li.nav-item {
+  @extend .border;
+  @extend .border-0;
+  @extend .m-2;
+  @extend .list-inline-item;
 }
 
 // Pandoc, crossref and CSL classes {{{2

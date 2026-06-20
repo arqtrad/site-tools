@@ -9,11 +9,11 @@
       </span>
     </div>
     {%- if schemata.credits.pesquisa %}
-    <div class="col mb-auto mt-2 pt-2">
+    <div class="footer-credits">
       <h3 class="h4" data-toc-skip>Realização</h3>
       <ul class="footer-group">
         {%- for i in schemata.credits.pesquisa %}
-        <li class="nav-item mb-2">
+        <li class="nav-item">
           <a href="{{ i.url }}" target="_blank" class="nav-link{% if i.class %} {{ i.class }}{% endif %}">
             {%- if i.logo %}
             {{ i.logo | safe }}
@@ -27,11 +27,11 @@
     </div>
     {%- endif %}
     {%- if schemata.credits.apoio %}
-    <div class="col mb-auto mt-2 pt-2">
+    <div class="footer-credits">
       <h3 class="h4" data-toc-skip>Apoio</h3>
       <ul class="footer-group">
         {%- for i in schemata.credits.apoio %}
-        <li class="nav-item mb-2">
+        <li class="nav-item">
           <a href="{{ i.url }}" target="_blank" class="nav-link{% if i.class %} {{ i.class }}{% endif %}">
             {%- if i.logo %}
             {{ i.logo | safe }}
