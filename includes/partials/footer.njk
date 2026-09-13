@@ -1,14 +1,31 @@
 
   <footer class="page-footer">
-    <div class="col d-flex align-items-center mb-auto mt-2 pt-2">
-      <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-        {{ site.title }}
-      </a>
-      <span class="mb-3 mb-md-0 text-body-secondary lh-1">
+    <p class="footer-credits">
+      <span class="text-body-secondary lh-1">
+        {{ site.title }} {{ site.subtitle }} &copy;
+        {{ site.name }} e equipe |
         <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
       </span>
-    </div>
-    {%- if schemata.credits.pesquisa %}
+    </p>
+
+  {%- if site.footer.links %}
+    <nav id="footer-nav">
+      <ul>
+      {% for item in site.footer.links -%}{% if item.url -%}
+        <li>
+          <a href="{{ item.url }}" {% if item.target %}target="{{ item.target }}" {% endif %}class="{% if item.class %} {{ item.class }}{% endif %}">
+          {%- if item.icon %}
+            <i class="{{ item.icon }}" aria-label="{{ item.label }}"></i>
+          {%- endif %}
+            <span class="item-label{% if item.icon %} d-lg-none{% endif %}">{{ item.label | safe }}</span>
+          </a>
+        </li>
+      {%- endif %}{%- endfor %}
+      </ul>
+    </nav>
+  {%- endif %}
+
+  {%- if schemata.credits.pesquisa %}
     <div class="footer-credits">
       <h3 class="h4" data-toc-skip>Realização</h3>
       <ul class="footer-group">
@@ -43,28 +60,6 @@
         {%- endfor %}
       </ul>
     </div>
-    {%- endif %}
-
-  {%- if site.footer.links %}
-    <nav id="footer-nav" class="navbar navbar-expand-lg mb-auto">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarFooter" aria-controls="navbarFooter" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="navbar-toggler-icon"></i>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarFooter">
-        <ul class="navbar-nav">
-        {% for item in site.footer.links -%}{% if item.url -%}
-          <li class="nav-item">
-            <a href="{{ item.url }}" {% if item.target %}target="{{ item.target }}" {% endif %}class="nav-link{% if item.class %} {{ item.class }}{% endif %}">
-            {%- if item.icon %}
-              <i class="{{ item.icon }}" aria-label="{{ item.label }}"></i>
-            {%- endif %}
-              <span class="ps-1{% if item.icon %} d-lg-none{% endif %}">{{ item.label | safe }}</span>
-            </a>
-          </li>
-        {%- endif %}{%- endfor %}
-        </ul>
-      </div>
-    </nav>
   {%- endif %}
   </footer>
 

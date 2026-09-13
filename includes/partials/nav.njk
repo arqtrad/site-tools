@@ -25,20 +25,20 @@
       {%- endif %}
     </a>
     {% if navigation.main %}
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <i class="navbar-toggler-icon"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav">
-        {% for m in navigation.main -%}
-        <li class="nav-item">
-          <a href="{{ m.url }}" {% if m.target %}target="{{ m.target }}" {% endif %}class="nav-link{% if m.class %} {{ m.class }}{% endif %}">
-            {{ m.title | safe }}
-          </a>
-        </li>
-        {%- endfor %}
-      </ul>
-    </div>
+    <p class="d-inline-flex gap-1">
+      <button class="navbar-toggler" data-bs-toggle="collapse" href="#navbarSupportedContent" role="button" aria-expanded="false" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+        <i class="navbar-toggler-icon"></i>
+      </button>
+    </p>
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarSupportedContent">
+      {% for m in navigation.main -%}
+      <li class="nav-item">
+        <a href="{{ m.url }}" {% if m.target %}target="{{ m.target }}" {% endif %}class="nav-link{% if m.class %} {{ m.class }}{% endif %}">
+          {{ m.title | safe }}
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
     {% endif %}
   </div>
 </nav>
