@@ -1,6 +1,6 @@
 <script>
-  var map = L.map('map').setView([{{ coverage.spatial.location.lat }}, {{ coverage.spatial.location.long }}], {{ coverage.spatial.location.zoom }});
-  L.marker([{{ coverage.spatial.location.lat }}, {{ coverage.spatial.location.long }}]).addTo(map);
+  var map = L.map('map').setView([{{ spatial.site.location.lat }}, {{ spatial.site.location.lon }}], {{ spatial.site.location.zoom }});
+  L.marker([{{ spatial.site.location.lat }}, {{ spatial.site.location.lon }}]).addTo(map);
   L.tileLayer('https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
