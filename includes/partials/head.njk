@@ -26,7 +26,12 @@
 {%- if css %}{%- for css in css %}
 <link rel="stylesheet" type="text/css" href="{{ css }}" />
 {%- endfor %}{%- endif %}
+{%- if arqtrad.environment == "production" %}
+{# https://v1.11ty.dev/docs/data-js/#example-exposing-environment-variables #}
+<link rel="stylesheet" type="text/css" href="https://tradicional.arq.br/assets/css/main.css" />
+{%- else %}
 <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+{%- endif %}
 <link rel="schema.DCTERMS" href="http://purl.org/dc/terms/" />
 <meta charset="utf-8" />
 <meta name="generator" content="{{ eleventy.generator }}">
