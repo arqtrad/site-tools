@@ -1,18 +1,31 @@
+---
+css:
+  - "/assets/leaflet/leaflet.css"
+  - "/assets/timelinejs/css/timeline.css"
+eleventyImport:
+  collections: [ "dwg" ]
+permalink: "/{{ page.fileSlug | slugify }}/"
+tags: [ "w" ]
+toc: false
+---
+
 {% extends "layouts/base.njk" %}
 
 {% block htmlhead -%}
 {% include "partials/head.njk" %}
 {%- if bibliographicCitation %}
-  {%- if bibliographicCitation.href %}
+  {%- for b in bibliographicCitation %}
+    {%- if b.href %}
 <link rel="DCTERMS.bibliographicCitation"
-      href="{{ bibliographicCitation.href }}"
+      href="{{ b.href }}"
       />
-  {%- elseif bibliographicCitation.text %}
+    {%- elseif b.dislay %}
 <meta name="DCTERMS.bibliographicCitation"
-      content="{{ bibliographicCitation.text }}"
+      content="{{ b.dislay }}{% if b.pages %}: {{ b.pages }}{% endif %}"
       />
-  {%- endif %}
-{%- endif %}
+    {%- endif %}
+  {%- endfor %}
+  {%- endif %}{# /bibliographicCitation #}
 <link rel="DCTERMS.conformsTo"
       href="{{ conformsTo }}"
       />

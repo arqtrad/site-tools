@@ -15,11 +15,11 @@
         {{ dwg.title | safe }}
       </h3>
     </div>
-    <div class="card-body">
     {%- if dwg.excerpt %}
+    <div class="card-body">
       <small class="card-text" itemprop="description">{{ dwg.excerpt | safe }}</small>
-    {%- endif %}
     </div>
+    {%- endif %}
     <ul class="list-group list-group-flush">
       {%- if dwg.temporal %}
       <li class="list-group-item">
@@ -35,8 +35,19 @@
       {%- if dwg.author %}
       <li class="list-group-item" itemprop="author">
         {%- set dwgAuthor = dwg.author %}
-        {{ schemata.ui_text[locale].redraw }}:
-        {{ members[dwgAuthor].name }}
+        <span class="h6 me-auto">
+          {{ schemata.ui_text[locale].redraw }}
+        </span>
+        <span class="badge">
+        {%- set a = schemata.members[dwgAuthor] %}
+        {%- if a.givenName %}
+          {{ a.givenName }} {{ a.additionalName }} {{ a.familyName }}
+        {%- elif a.name %}
+          {{ a.name }}
+        {%- else %}
+          {{ dwgAuthor }}
+        {%- endif %}
+        </span>
       </li>
       {%- endif %}
       {%- if ( dwg.svg == "TRUE" ) or ( dwg.dxf == "TRUE" ) %}
