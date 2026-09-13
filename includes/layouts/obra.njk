@@ -145,7 +145,6 @@ toc: false
   <h2 class="d-none" aria-hidden="true" data-pagefind-index-attrs="title"{% if toc %} data-toc-text="Ficha técnica"{% endif %}>{{ title }}</h2>
   {{ content | safe }}
 </article>
-
 <div class="col col-md-4 order-md-1 mb-5">
   <div class="card">
     <div id="map" itemprop="hasMap" class="card-img-top"></div>
@@ -219,6 +218,7 @@ toc: false
     </ul>
   </div><!--/.card-->
 </div><!--/.col-md-4-->
+{% include "partials/leafletjs.njk" %}
 {% endblock %}
 
 {% block after %}
@@ -261,6 +261,4 @@ toc: false
   </div><!--/.archive__row-->
 {% endif %}
 </div><!--/.media-block-->
-
-{% include "partials/leafletjs.njk" %}
 {% endblock %}
