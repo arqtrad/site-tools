@@ -1,6 +1,12 @@
-<h2 id="desenhos" style="text-transform: capitalize;">{{ schemata.ui_text[locale].dwgs_label }}</h2>
-  <div class="archive__row">
-    {%- for dwg in relation.isDocumentedBy %}
-      {%- include "partials/card-dwg.njk" %}
-    {%- endfor %}
-  </div><!--/.archive__row-->
+<h2 id="resource" style="text-transform: capitalize;">
+  {{ schemata.ui_text[locale].dwgs_label }}
+</h2>
+<div class="archive__row">
+{%- for r in resource %}
+  <div class="col">
+    <div class="card h-100 shadow-sm" itemscope itemtype="https://schema.org/Drawing">
+      <!-- Card aqui -->
+    </div><!--/.card-->
+  </div><!--/.col-->
+{%- endfor %}
+</div><!--/.archive__row-->
