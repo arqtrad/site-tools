@@ -1,0 +1,6 @@
+<h2 id="desenhos" style="text-transform: capitalize;">{{ schemata.ui_text[locale].dwgs_label }}</h2>
+  <div class="archive__row">
+    {%- for dwg in relation.isDocumentedBy %}
+      {%- include "partials/card-dwg.njk" %}
+    {%- endfor %}
+  </div><!--/.archive__row-->
