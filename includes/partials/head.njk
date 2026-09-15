@@ -26,7 +26,10 @@
 {%- if css %}{%- for css in css %}
 <link rel="stylesheet" type="text/css" href="{{ css }}" />
 {%- endfor %}{%- endif %}
-<link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+<link rel="stylesheet" 
+      type="text/css" 
+      href="{% if site.css %}{{ site.css }}{% else %}/assets/css/main.css{% endif %}" 
+/>
 <link rel="schema.DCTERMS" href="http://purl.org/dc/terms/" />
 <meta charset="utf-8" />
 <meta name="generator" content="{{ eleventy.generator }}">
