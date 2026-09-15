@@ -19,9 +19,9 @@ toc: false
 <link rel="DCTERMS.bibliographicCitation"
       href="{{ b.href }}"
       />
-    {%- elseif b.dislay %}
+    {%- elseif b.display %}
 <meta name="DCTERMS.bibliographicCitation"
-      content="{{ b.dislay }}{% if b.pages %}: {{ b.pages }}{% endif %}"
+      content="{{ b.display }}{% if b.pages %}: {{ b.pages }}{% endif %}"
       />
     {%- endif %}
   {%- endfor %}
@@ -235,6 +235,10 @@ toc: false
   {% endset %}
   {% include "partials/timeline.njk" %}
 {% endif %}
+
+{%- if resource %}
+{%- include "partials/resource.njk" %}
+{%- endif %}
 
 {%- if relation.isDocumentedBy[0] %}
   <h2 id="desenhos" style="text-transform: capitalize;">{{ schemata.ui_text[locale].dwgs_label }}</h2>
