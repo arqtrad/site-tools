@@ -240,15 +240,6 @@ toc: false
 {%- include "partials/resource.njk" %}
 {%- endif %}
 
-{%- if relation.isDocumentedBy[0] %}
-  <h2 id="desenhos" style="text-transform: capitalize;">{{ schemata.ui_text[locale].dwgs_label }}</h2>
-  <div class="archive__row">
-    {%- for dwg in relation.isDocumentedBy %}
-      {%- include "partials/card-dwg.njk" %}
-    {%- endfor %}
-  </div><!--/.archive__row-->
-{%- endif %}
-
 {% if relation.depictedIn[0] %}
   {% set mediaCollection = collections.media %}
   <h2 id="iconografia" style="text-transform: capitalize;">{{ schemata.ui_text[locale].iconography_label }}</h2>
