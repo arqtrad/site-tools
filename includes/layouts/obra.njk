@@ -37,8 +37,8 @@ toc: false
       />
   {%- endfor %}
 {%- endif %}{# /contributor #}
-{%- if coverage.temporal.events %}
-  {%- for e in coverage.temporal.events %}
+{%- if temporal %}
+  {%- for e in temporal %}
     {%- if ( e.type === 'creation' ) %}
 <meta name="DCTERMS.created"
       content="
@@ -76,16 +76,16 @@ toc: false
 {%- if format.extent %}
   {%- for e in format.extent %}
 <meta name="DCTERMS.extent"
-      content="{{ e.type }}: {{ e.measurements }} {{ e.unit }}"
+      content="{{ e.type }}: {{ e.measurements }} {{ e.unit.display }}"
       />
   {%- endfor %}
 {%- endif %}{# /format.extent #}
 {%- if identifier %}
   {%- for i in identifier %}
-    {%- set label %}{% if i.source %}{{ i.source }}{% endif %}{% if i.refid %} {{ i.refid }}{% endif %}{% if i.text %} {{ i.text }}{% endif %}{% endset %}
-    {%- if i.href %}
+    {%- set label %}{% if i.source %}{{ i.source }}{% endif %}{% if i.refid %} {{ i.refid }}{% endif %}{% if i.display %} {{ i.display }}{% endif %}{% endset %}
+    {%- if i.refid %}
 <link rel="DCTERMS.identifier"
-      href="{{ i.href }}"
+      href="{{ i.refid }}"
       title="{{ label }}"
     {%- else %}
 <meta name="DCTERMS.identifier"
@@ -205,11 +205,9 @@ toc: false
       <li itemprop="identifier" class="list-group-item d-flex justify-content-between align-items-start">
         <div class="h6 me-auto">{{ i.source }}</div>
         <span class="badge">
-        {%- if i.href %}
-        <a href="{{ i.href }}" target="_blank">
-        {%- endif %}
+        {%- if i.refid %}
+        <a href="{{ i.refid }}" target="_blank">
           {{ i.refid }}
-        {%- if i.href %}
         </a>
         {%- endif %}
         </span>
@@ -230,7 +228,7 @@ toc: false
   {% set timelineData %}
   {
     "events":
-    {{ coverage.temporal | dump | safe }}
+    {{ temporal | dump | safe }}
   }
   {% endset %}
   {% include "partials/timeline.njk" %}
