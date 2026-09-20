@@ -1,3 +1,10 @@
+{%- if not locale -%}
+  {%- if page.lang %}
+    {%- set locale = page.lang %}
+  {%- else %}
+    {%- set locale = site.locale -%}
+  {%- endif %}
+{%- endif %}
 <h2 id="resource" style="text-transform: capitalize;">
   {{ schemata.ui_text[locale].dwgs_label }}
 </h2>
